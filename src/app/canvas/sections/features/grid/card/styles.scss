@@ -1,0 +1,8 @@
+@import 'global';
+
+.agent-card {
+  border: $border;
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+  background: $card-bg;
+}

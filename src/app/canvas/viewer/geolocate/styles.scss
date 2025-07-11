@@ -1,0 +1,30 @@
+@import 'global';
+
+.mapboxgl-ctrl-group {
+	margin-right: 10px !important;
+	margin-bottom: 15px !important;
+	border-radius: 8px !important;
+	box-shadow: $box-shadow !important;
+}
+.mapboxgl-ctrl-geolocate {
+	width: 40px !important;
+	height: 40px !important;
+	padding: 5px !important;
+	align-self: center !important;
+	justify-self: center !important;
+	background-color: $card-bg !important;
+}
+
+@media screen and (max-width: 768px) {
+  .mapboxgl-ctrl-group {
+    margin-right: 15px !important;
+    margin-bottom: 105px !important;
+  }
+  .geolocation-wrapper {
+  	bottom: 205px;
+  	right: 15px;
+  }
+  .geolocate-tooltip {
+  	display: none;
+  }
+}

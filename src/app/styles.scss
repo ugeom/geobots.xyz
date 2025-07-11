@@ -1,0 +1,40 @@
+@import 'global';
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: $font-family;
+  color: $text-dark;
+  line-height: 1.6;
+}
+.App {
+	display: grid; 
+	overflow: hidden;
+	height: calc(var(--vh, 1vh) * 100);
+  max-height: calc(var(--vh, 1vh) * 100);
+	grid-template-columns: min-content auto;
+	grid-template-rows: min-content auto;
+	grid-template-areas: 
+		"lg cv"
+		"me cv"
+}
+.logo {
+	grid-area: lg;
+}
+.menu {
+	grid-area: me
+}
+.canvas {
+	grid-area: cv;
+	position: relative;
+}
+@media screen and (max-width: 768px) {
+	.App {
+		grid-template-columns: auto;
+		grid-template-rows: min-content auto min-content;
+		grid-template-areas: 
+			"lg"
+			"cv"
+			"me";
+	}	
+}

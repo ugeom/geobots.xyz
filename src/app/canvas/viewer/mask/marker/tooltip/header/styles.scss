@@ -1,0 +1,10 @@
+@import 'global';
+
+.header-selector {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: $card-bg;
+  box-shadow: $box-shadow;
+}
