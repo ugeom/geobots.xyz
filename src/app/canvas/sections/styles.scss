@@ -9,35 +9,17 @@
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 4;
-  border-right: $border;
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: $box-shadow;
-}
-.draggable-top {
-  display: none;
+  border-right: $border;
 }
 // mobile-style
 @media screen and (max-width: 768px) {
-  .draggable-top {
-    width: 100%;
-    height: 20px;
-    user-select: none;
-    display: grid;
-    justify-content: center;
-    padding-top: 5px;
-  }
-  .draggable-tab {
-    width: 100px;
-    height: 15px;
-    border-radius: 5px;
-    background: $text-dark;
-    justify-self: center;
-  }
   .sections {
-    min-height: 100vh;
+    height: calc(100vh - 150px);
     overflow-y: scroll;
     width: 100%;
-    top: 60%;
+    top: 0;
   }
 }

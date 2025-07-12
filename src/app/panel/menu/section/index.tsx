@@ -7,7 +7,7 @@ import { useMarkers } from 'context/markers';
 export const Section = ({ section, title }: any) => {
 	const { activePage, setActivePage } = useMarkers();
 	const isActiveSection = activePage === section ? "active" : "";
-	const iconPath = `${process.env.PUBLIC_URL}/static/icons/${section}.svg`;
+	const iconPath = `${process.env.PUBLIC_URL}/static/panel/${section}.svg`;
 	
 	const onClick = () => 
 		activePage !== section ? 

@@ -4,19 +4,11 @@ import { useState, useEffect, useContext, createContext } from 'react';
 // App imports
 import { providers } from './data';
 
-// Context imports
-import { useLayer } from 'context/layer';
-
-// Third-party imports
-import * as turf from '@turf/turf';
-
 const MarkersContext: React.Context<any> = createContext(null);
 
 export const useMarkers = () => useContext(MarkersContext)
 
 export const MarkersProvider = ({children}: any) => {
-	const { getGeojson } = useLayer();
-
 	const [ activePage, setActivePage ] = useState<any>(null);
 	const [ addPin, setAddPin ] = useState(false);
 	
@@ -28,17 +20,23 @@ export const MarkersProvider = ({children}: any) => {
 	const [ radius, setRadius ] = useState(0.5);
 
 	const getMarkerId = (markers: any) => {
-	    const ids = Object.keys(markers).map(Number);
-	    const maxId = ids.length ? Math.max(...ids) : 0;
+	    const existingMarkersIds = Object.keys(markers).map(Number);
+	    const maxId = 
+	    	existingMarkersIds.length ? 
+	    	Math.max(...existingMarkersIds) : 
+	    	0;
 	    return maxId + 1;
 	};
 
-    const addMarker = async (event: any) => {
-    	const center = event.lngLat;
-        const boundary = turf.circle([ center.lng, center.lat ], 0.5);
+	const activateMarker = (src: any, name: any) => {
+		setAddPin((prev: boolean) => !prev);
+		setCurrentImage(src);
+		setCurrentName(name);
+	}
 
-        const id = getMarkerId(markers);
-        const data = getGeojson(boundary, 'LineString', 'road');
+    const addMarker = async (event: any) => {
+    	const id = getMarkerId(markers);
+    	const center = event.lngLat;
 
     	if (addPin === true) {
 			const newMarker = {
@@ -50,7 +48,6 @@ export const MarkersProvider = ({children}: any) => {
 				contoursMinutes: 10,
 				geometryType: "circle",
 				routingProfile: "walking",
-				data
 			};
 			setMarkers((prev: any) => ({ 
 				...prev, 
@@ -97,7 +94,7 @@ export const MarkersProvider = ({children}: any) => {
 			activePage, setActivePage,
 			radius, setRadius,
 			addPin, setAddPin,
-			providers,
+			providers, activateMarker
 		}}>
 			{children}
 		</MarkersContext.Provider>
