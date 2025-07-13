@@ -17,13 +17,14 @@ export const MarkersProvider = ({children}: any) => {
 	const [ currentMarkerId, setCurrentMarkerId ] = useState<any>(null);
 	const [ currentImage, setCurrentImage ] = useState<any>(null);
 	const [ currentProvider, setCurrentProvider ] = useState<any>(null);
+
 	const [ radius, setRadius ] = useState(0.5);
 
 	const getMarkerId = (markers: any) => {
-	    const existingMarkersIds = Object.keys(markers).map(Number);
+	    const prevIds = Object.keys(markers).map(Number);
 	    const maxId = 
-	    	existingMarkersIds.length ? 
-	    	Math.max(...existingMarkersIds) : 
+	    	prevIds.length ? 
+	    	Math.max(...prevIds) : 
 	    	0;
 	    return maxId + 1;
 	};

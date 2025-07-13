@@ -28,6 +28,7 @@ export const LayerProvider = ({ children }: any) => {
 	}
 
 	const getGeojson = (boundary: any, geometryType: string, source: any) => {
+		console.log(geometryType)
 		const fillProperty = fillProperties[geometryType] || 'fill-color';
 		const isLine = geometryType === 'LineString' || geometryType === 'MultiLineString';
 

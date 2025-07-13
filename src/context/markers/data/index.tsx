@@ -5,8 +5,8 @@ export const providers = [
 		provider: "mapbox", 
 		source: 'composite',
 		layer: 'road', 
-		type: "LineString", 
 		columnName: "type", 
+		geometryType: "LineString", 
 		graphicType: "dots"
 	},
 	{
@@ -14,8 +14,8 @@ export const providers = [
 		label: 'Buildings', 
 		provider: "mapbox", 
 		layer: 'building', 
-		type: "Polygon", 
 		columnName: "subtype", 
+		geometryType: "Polygon", 
 		graphicType: "dots"
 	},
 ];

@@ -19,7 +19,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { fetchIsochrone } = useMapboxIsochroneApi();
 	const { getGeojson } = useLayer();
 	const { updateMarkers, rejectMarker } = useMarkers();
-	const { id, center, image, radius, name, boundaryType, type: currentType, layer } = marker; 
+	const { id, center, image, radius, name, boundaryType, geometryType, layer } = marker; 
 	const { lng, lat } = center;
 
 	const [ activeTrash, setActiveTrash ] = useState(false);
@@ -46,7 +46,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		}
 	};
 
-	const onClick = (e: any) => {
+	const activateTrash = (e: any) => {
 		e.stopPropagation();
 		!dragging && setActiveTrash((prev: boolean) => !prev);
 	}
@@ -57,12 +57,12 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	        const data = await fetchIsochrone(marker);
 	        const currentBoundary = data.features[0]
 	        setBoundary(currentBoundary);
-	        updateMarkers(id, 'data', getGeojson(currentBoundary, currentType, layer));
+	        updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
 	      } 
 	      else {
 	        const circle = turf.circle([ lng, lat ], radius);
 	        setBoundary(circle);
-	        const geojson = getGeojson(circle, currentType, layer);
+	        const geojson = getGeojson(circle, geometryType, layer);
 	        updateMarkers(id, 'data', geojson);
 	      }
 	    };
@@ -80,7 +80,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 			onDrag={onDrag}
 			onDragEnd={onDragEnd}
 		>
-			<Icon name={name} image={image} onClick={onClick}/>
+			<Icon name={name} image={image} onClick={activateTrash}/>
 			{activeTrash && 
 				<>
 					<Trash onClick={(e: any) => rejectMarker(e, id)} />

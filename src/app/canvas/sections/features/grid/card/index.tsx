@@ -10,10 +10,10 @@ import './styles.scss';
 export const Card = ({ marker }: any) => {
 	const [ activeCharts, setActiveCharts ] = useState(true);
 	
-	const { id, data, type: currentType, provider, columnName, graphicType } = marker;
+	const { id, data, geometryType, provider, columnName, graphicType } = marker;
 
-	const isLine = currentType === "LineString";
-	const isPoint = currentType === 'Point';
+	const isLine = geometryType === "LineString";
+	const isPoint = geometryType === 'Point';
 	
 	const currentColor = 
 		isLine ?  'line-color' : 
