@@ -16,7 +16,7 @@ export const MarkersProvider = ({children}: any) => {
 	const [ markers, setMarkers ] = useState({});
 	const [ currentMarkerId, setCurrentMarkerId ] = useState<any>(null);
 	const [ currentImage, setCurrentImage ] = useState<any>(null);
-	const [ currentName, setCurrentName ] = useState<any>(null);
+	const [ currentProvider, setCurrentProvider ] = useState<any>(null);
 	const [ radius, setRadius ] = useState(0.5);
 
 	const getMarkerId = (markers: any) => {
@@ -28,10 +28,10 @@ export const MarkersProvider = ({children}: any) => {
 	    return maxId + 1;
 	};
 
-	const activateMarker = (src: any, name: any) => {
+	const activateMarker = (src: any, provider: any) => {
 		setAddPin((prev: boolean) => !prev);
 		setCurrentImage(src);
-		setCurrentName(name);
+		setCurrentProvider(provider);
 	}
 
     const addMarker = async (event: any) => {
@@ -42,12 +42,12 @@ export const MarkersProvider = ({children}: any) => {
 			const newMarker = {
 				id,
 				center,
-				image: currentImage,
-				name: currentName,
 				radius,
 				contoursMinutes: 10,
-				geometryType: "circle",
+				boundaryType: "circle",
 				routingProfile: "walking",
+				image: currentImage,
+				...currentProvider,
 			};
 			setMarkers((prev: any) => ({ 
 				...prev, 
@@ -90,7 +90,7 @@ export const MarkersProvider = ({children}: any) => {
 			currentMarkerId, setCurrentMarkerId,
 			addMarker, rejectMarker, updateMarkers,
 			currentImage, setCurrentImage,
-			currentName, setCurrentName,
+			currentProvider, setCurrentProvider,
 			activePage, setActivePage,
 			radius, setRadius,
 			addPin, setAddPin,

@@ -7,15 +7,15 @@ import { useMarkers } from 'context/markers';
 export const SectionItem = ({ name, marker }: any) => {
 	const { updateMarkers } = useMarkers();
 
-	const { geometryType, id } = marker;
+	const { boundaryType, id } = marker;
 
 	const isActiveColor = (name: any) => 
-		geometryType === name ? 
+		boundaryType === name ? 
 		"rgba(52, 152, 219, 0.3)" : 
 		"rgba(255, 255, 255, 0)";
 
 	const onClick = (boundaryType: any) => {
-		updateMarkers(id, "geometryType", boundaryType);
+		updateMarkers(id, "boundaryType", boundaryType);
 	}
 
 	const backgroundColor = isActiveColor(name);

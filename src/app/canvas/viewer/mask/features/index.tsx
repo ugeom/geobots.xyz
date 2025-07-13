@@ -1,7 +1,7 @@
 // App imports
 import { Lines } from './lines';
 
-export const Geometry = ({ boundary, marker }: any) => {
+export const Features = ({ boundary, marker }: any) => {
 	if (!boundary) return <></>;
 
 	return (	
@@ -13,4 +13,4 @@ export const Geometry = ({ boundary, marker }: any) => {
 	)
 }
 
-Geometry.displayName="Geometry";
+Features.displayName="Features";

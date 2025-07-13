@@ -1,5 +1,5 @@
 // React imports
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // App imports
 import { Icon } from './icon';
@@ -8,13 +8,19 @@ import { Trash } from './trash';
 
 // Context imports
 import { useMarkers } from 'context/markers';
+import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
+import { useLayer } from 'context/layer';
 
 // Third-party imports
 import { Marker } from 'react-map-gl/mapbox';
+import * as turf from '@turf/turf';
 
-export const CustomMarker = ({ marker }: any) => {
+export const CustomMarker = ({ marker, setBoundary }: any) => {
+	const { fetchIsochrone } = useMapboxIsochroneApi();
+	const { getGeojson } = useLayer();
 	const { updateMarkers, rejectMarker } = useMarkers();
-	const { id, center, image, name, geometryType } = marker;
+	const { id, center, image, radius, name, boundaryType, type: currentType, layer } = marker; 
+	const { lng, lat } = center;
 
 	const [ activeTrash, setActiveTrash ] = useState(false);
 	const [ dragging, setDragging ] = useState(false);
@@ -27,7 +33,7 @@ export const CustomMarker = ({ marker }: any) => {
 	
 	const onDrag = (e: any) => {
 		setDragPosition(e.lngLat);
-		if (geometryType !== "iso") {
+		if (boundaryType !== "iso") {
 			updateMarkers(id, "center", e.lngLat);
 		}
 	};
@@ -35,7 +41,7 @@ export const CustomMarker = ({ marker }: any) => {
 	const onDragEnd = (e: any) => {
 		setDragPosition(null);
 		setTimeout(() => setDragging(false), 0);
-		if (geometryType === "iso") {
+		if (boundaryType === "iso") {
 			updateMarkers(id, "center", e.lngLat);
 		}
 	};
@@ -44,6 +50,24 @@ export const CustomMarker = ({ marker }: any) => {
 		e.stopPropagation();
 		!dragging && setActiveTrash((prev: boolean) => !prev);
 	}
+
+	useEffect(() => {
+	    const fetchBoundary = async (marker: any) => {
+	      if (boundaryType === 'iso') {
+	        const data = await fetchIsochrone(marker);
+	        const currentBoundary = data.features[0]
+	        setBoundary(currentBoundary);
+	        updateMarkers(id, 'data', getGeojson(currentBoundary, currentType, layer));
+	      } 
+	      else {
+	        const circle = turf.circle([ lng, lat ], radius);
+	        setBoundary(circle);
+	        const geojson = getGeojson(circle, currentType, layer);
+	        updateMarkers(id, 'data', geojson);
+	      }
+	    };
+	    fetchBoundary(marker);
+	  }, [ marker ]);
 
 	return (
 		<Marker

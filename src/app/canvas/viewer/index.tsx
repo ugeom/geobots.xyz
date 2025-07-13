@@ -19,8 +19,6 @@ export const Viewer = () => {
 
 	const [ isMapLoaded, setIsMapLoaded ] = useState(false);
 
-	const onClick = (event: any) => addMarker(event);
-
 	return (
 		<Map
 			ref={mapRef}
@@ -28,7 +26,7 @@ export const Viewer = () => {
 			mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
 			mapStyle={mapStyle}
 			onLoad={() => setIsMapLoaded(true)}
-			onClick={onClick}
+			onClick={addMarker}
 			doubleClickZoom={false}
 		>
 			{isMapLoaded && 

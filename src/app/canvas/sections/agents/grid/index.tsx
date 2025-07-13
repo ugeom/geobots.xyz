@@ -10,8 +10,8 @@ export const Grid = ({ imageUrls }: any) => {
 
 	return (
 		<div className="agent-grid">
-		  {providers.map((item: any) => {
-		  	const { name } = item;
+		  {providers.map((provider: any) => {
+		  	const name = provider.name;
 		  	const imageUrl = baseUrl + name + '.svg';
 		  	const processedName = name.replace("_", " ");
 
@@ -19,7 +19,7 @@ export const Grid = ({ imageUrls }: any) => {
 			  <div 
 			  	key={name}
 			  	className="agent-grid-card"
-			  	onClick={() => activateMarker(imageUrl, name)} 
+			  	onClick={() => activateMarker(imageUrl, provider)} 
 			  >
 			    <img src={imageUrl} alt={name}/>
 			    <span>{processedName}</span>

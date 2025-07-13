@@ -7,18 +7,10 @@ import { Charts } from './charts';
 import { Footer } from './footer';
 import './styles.scss';
 
-// Context imports
-import { useMarkers } from 'context/markers';
-
 export const Card = ({ marker }: any) => {
-	const { providers } = useMarkers();
-
 	const [ activeCharts, setActiveCharts ] = useState(true);
 	
-	const { id, name, data } = marker;
-
-	const providerData = providers.find((item: any) => item.name === name);
-	const { type: currentType, provider, columnName, graphicType } = providerData;
+	const { id, data, type: currentType, provider, columnName, graphicType } = marker;
 
 	const isLine = currentType === "LineString";
 	const isPoint = currentType === 'Point';

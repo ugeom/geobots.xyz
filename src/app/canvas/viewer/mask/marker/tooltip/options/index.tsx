@@ -4,11 +4,11 @@ import { Mobility } from './mobility';
 import './styles.scss';
 
 export const Options = ({ marker }: any) => {
-	const { id, radius, contoursMinutes, geometryType } = marker;
+	const { id, radius, contoursMinutes, boundaryType } = marker;
 	
 	return (
 		<div className="options-wrapper">
-		  {geometryType === "circle" && 
+		  {boundaryType === "circle" && 
   				<Slider 
   					markerId={id} 
   					markerProperty='radius'
@@ -18,7 +18,7 @@ export const Options = ({ marker }: any) => {
   					initialState={radius}
   				/>
   			}
-  			{geometryType === "iso" && 
+  			{boundaryType === "iso" && 
 	  			<>
 	  				<Mobility markerId={id}/>
 	  				<Slider 
