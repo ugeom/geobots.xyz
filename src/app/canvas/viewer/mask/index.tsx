@@ -7,7 +7,7 @@ import { Boundary } from './boundary';
 import { Geometry } from './geometry';
 
 // Context imports
-import { useMapboxIsochroneApi } from 'context/mapbox/isochrone';
+import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
 import { useLayer } from 'context/layer';
 import { useMarkers } from 'context/markers';
 
@@ -17,9 +17,14 @@ import * as turf from '@turf/turf';
 export const Mask = ({ marker }: any) => {
   const { fetchIsochrone } = useMapboxIsochroneApi();
   const { getGeojson } = useLayer();
-  const { updateMarkers } = useMarkers();
+  const { providers, updateMarkers } = useMarkers();
 
-  const { id, center, radius, geometryType, data } = marker; 
+  const { id, name, center, radius, geometryType } = marker; 
+
+  const providerData = providers.find((item: any) => item.name === name);
+
+  const { type: currentType, layer } = providerData;
+
   const { lng, lat } = center;
 
   const [ boundary, setBoundary ] = useState<any>(null);
@@ -30,12 +35,13 @@ export const Mask = ({ marker }: any) => {
         const data = await fetchIsochrone(marker);
         const currentBoundary = data.features[0]
         setBoundary(currentBoundary);
-        updateMarkers(id, 'data', getGeojson(currentBoundary, 'LineString', 'road'));
+        updateMarkers(id, 'data', getGeojson(currentBoundary, currentType, layer));
       } 
       else {
         const circle = turf.circle([ lng, lat ], radius);
         setBoundary(circle);
-        updateMarkers(id, 'data', getGeojson(circle, 'LineString', 'road'));
+        const geojson = getGeojson(circle, currentType, layer);
+        updateMarkers(id, 'data', geojson);
       }
     };
     fetchBoundary(marker);

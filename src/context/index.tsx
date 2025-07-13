@@ -1,14 +1,14 @@
 import { GeoProvider } from './geo';
-import { MapboxProvider } from './mapbox';
-import { SearchProvider } from './search';
-import { SizesProvider } from './sizes';
+import { ApiProvider } from './api';
 import { LayerProvider } from './layer';
 import { MarkersProvider } from './markers';
+import { SearchProvider } from './search';
+import { SizesProvider } from './sizes';
 
 export const ContextProvider = ({children}: any) => {
   return (
     <GeoProvider>
-    <MapboxProvider>
+    <ApiProvider>
     <LayerProvider>
     <MarkersProvider>
     <SearchProvider>
@@ -18,7 +18,7 @@ export const ContextProvider = ({children}: any) => {
     </SearchProvider>
     </MarkersProvider>
     </LayerProvider>
-    </MapboxProvider>
+    </ApiProvider>
     </GeoProvider>
   )
 }

@@ -7,15 +7,26 @@ import { Charts } from './charts';
 import { Footer } from './footer';
 import './styles.scss';
 
+// Context imports
+import { useMarkers } from 'context/markers';
+
 export const Card = ({ marker }: any) => {
+	const { providers } = useMarkers();
+
 	const [ activeCharts, setActiveCharts ] = useState(true);
 	
-	const { id, data } = marker;
+	const { id, name, data } = marker;
 
-	const provider = 'mapbox';
-	const columnName = 'type';
-	const graphicType = "dots";
-	const currentColor = 'line-color';
+	const providerData = providers.find((item: any) => item.name === name);
+	const { type: currentType, provider, columnName, graphicType } = providerData;
+
+	const isLine = currentType === "LineString";
+	const isPoint = currentType === 'Point';
+	
+	const currentColor = 
+		isLine ?  'line-color' : 
+		isPoint ? 'circle-color' :
+		'fill-color';
 
 	return (
 		<div key={id} className="agent-card">

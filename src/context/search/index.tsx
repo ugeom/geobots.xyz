@@ -3,7 +3,7 @@ import { useState, useRef, useContext, createContext } from 'react';
 
 // Context imports
 import { useGeo } from 'context/geo';
-import { useMapboxSearchApi } from 'context/mapbox/search';
+import { useMapboxSearchApi } from 'context/api/mapbox/search';
 
 const SearchContext: React.Context<any> = createContext(null)
 

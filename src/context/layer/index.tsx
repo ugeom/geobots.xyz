@@ -14,7 +14,7 @@ export const useLayer = () => useContext(LayerContext)
 export const LayerProvider = ({ children }: any) => {
 	const { mapRef } = useGeo();
 
-	const getLayersBySource = (sourceLayer: string) => {
+	const getLayersIdsBySourceLayer = (sourceLayer: string) => {
 		return mapRef.current.getStyle()
 			.layers
 			.filter((layer: any) => layer['source-layer'] === sourceLayer)
@@ -22,7 +22,7 @@ export const LayerProvider = ({ children }: any) => {
 	}
 
 	const getFeaturesBySource = (currentSource: any) => {
-		const layers = getLayersBySource(currentSource);
+		const layers = getLayersIdsBySourceLayer(currentSource);
 		const currentFeatures = mapRef.current.queryRenderedFeatures({ layers });
 		return currentFeatures;
 	}

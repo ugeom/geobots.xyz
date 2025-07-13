@@ -2,7 +2,7 @@
 import './styles.scss';
 
 // Context imports
-import { useMapboxReverseApi } from 'context/mapbox/reverse';
+import { useMapboxReverseApi } from 'context/api/mapbox/reverse';
 
 export const Location = () => {
 	const { placeInfo } = useMapboxReverseApi();

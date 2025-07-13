@@ -8,5 +8,14 @@ export const providers = [
 		type: "LineString", 
 		columnName: "type", 
 		graphicType: "dots"
-	}
+	},
+	{
+		name: "buildings",
+		label: 'Buildings', 
+		provider: "mapbox", 
+		layer: 'building', 
+		type: "Polygon", 
+		columnName: "subtype", 
+		graphicType: "dots"
+	},
 ];
