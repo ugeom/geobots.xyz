@@ -12,7 +12,7 @@ export const Mask = ({ marker }: any) => {
   return (
     <div key={marker.id}>
       <Boundary marker={marker} boundary={boundary}/>
-      <Features marker={marker} boundary={boundary}/>
+      <Features marker={marker}/>
       <CustomMarker marker={marker} setBoundary={setBoundary}/>
     </div>
   )

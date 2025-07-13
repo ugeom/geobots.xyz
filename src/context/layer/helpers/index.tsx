@@ -1,5 +1,5 @@
 // App imports
-import { roadColors } from '../styles';
+import { roadColors, buildingColors } from '../styles';
 
 // Third-party imports
 import * as turf from '@turf/turf';
@@ -12,7 +12,7 @@ export const fillProperties: any = {
 
 const getColor = (layerType: any, layerPaint: any, property: string) => {
   const resultPaint = Object.assign({}, layerPaint);
-  resultPaint[property] = roadColors[layerType];
+  resultPaint[property] = property === 'line-color' ? roadColors[layerType] : buildingColors[layerType];
   return resultPaint;
 };
 
@@ -67,3 +67,15 @@ export const filterGeometries = (features: any[], boundary: any) =>
   features.filter(({ geometry }) =>
     turf.booleanPointInPolygon(turf.centroid(geometry), boundary)
   );
+
+export const toFeatureCollection = (originalFeatures: any[], paintProperty: string) => {
+  const features = originalFeatures.map((item) => {
+    const { geometry, properties: itemProperties, layer } = item;
+
+    const color = getColor(itemProperties.type, layer.paint, paintProperty);
+    const properties = { ...itemProperties, ...color }
+
+    return ({ type: 'Feature', geometry, properties })
+  })
+  return ({ type: 'FeatureCollection', features })
+};

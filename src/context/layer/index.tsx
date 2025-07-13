@@ -2,7 +2,7 @@
 import { useContext, createContext } from 'react';
 
 // App imports
-import { fillProperties, filterGeometries, filterLines } from './helpers';
+import { fillProperties, toFeatureCollection, filterGeometries, filterLines } from './helpers';
 
 // Context imports
 import { useGeo } from 'context/geo';
@@ -28,7 +28,6 @@ export const LayerProvider = ({ children }: any) => {
 	}
 
 	const getGeojson = (boundary: any, geometryType: string, source: any) => {
-		console.log(geometryType)
 		const fillProperty = fillProperties[geometryType] || 'fill-color';
 		const isLine = geometryType === 'LineString' || geometryType === 'MultiLineString';
 
@@ -36,7 +35,7 @@ export const LayerProvider = ({ children }: any) => {
 
 		if (!isLine) {
 			const geomFeatures = filterGeometries(currentFeatures, boundary);
-			return { type: 'FeatureCollection', features: geomFeatures }
+			return toFeatureCollection(geomFeatures, fillProperty);
 		}
 
 		const lineFeatures: any = filterLines(currentFeatures, boundary, fillProperty);

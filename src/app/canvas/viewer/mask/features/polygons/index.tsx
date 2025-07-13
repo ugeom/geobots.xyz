@@ -3,6 +3,8 @@ import { Source, Layer } from 'react-map-gl/mapbox';
 
 export const Polygons = ({ source, marker }: any) => {
   const { id, data } = marker;
+
+  const sourceId = `polygons-source-${id}`;
   const layerId = `polygons-layer-${id}`;
 
   const layerStyle: any = {
@@ -24,7 +26,7 @@ export const Polygons = ({ source, marker }: any) => {
 
 	return (
 		<Source 
-			id={id} 
+			id={sourceId} 
 			type="geojson" 
 			data={data}
 		>

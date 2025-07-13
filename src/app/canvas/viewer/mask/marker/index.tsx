@@ -76,17 +76,13 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 			latitude={dragPosition?.lat ?? center.lat}
 			anchor="bottom"
 			draggable
-			onDragStart={onDragStart}
 			onDrag={onDrag}
+			onDragStart={onDragStart}
 			onDragEnd={onDragEnd}
 		>
 			<Icon name={name} image={image} onClick={activateTrash}/>
-			{activeTrash && 
-				<>
-					<Trash onClick={(e: any) => rejectMarker(e, id)} />
-					<Tooltip marker={marker} />
-				</>
-			}
+			{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
+			{activeTrash && <Tooltip marker={marker} />}
 		</Marker>
 	)
 };
