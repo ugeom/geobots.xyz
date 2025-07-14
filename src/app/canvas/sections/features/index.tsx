@@ -1,17 +1,20 @@
 // App imports
-import { Grid } from './grid';
+import { Card } from './card';
 import './styles.scss';
 
-export const Features = () => {
-  return (
-    <div className="agent-selection">
-      <h2>Visible Features</h2>
-      <p className="instructions">
-        Custom Data Visualizations
-      </p>
-      <Grid/>
-    </div>
-  );
-};
+// Context imports
+import { useMarkers } from 'context/markers';
 
-Features.displayName = 'Features';
+export const Features = () => {
+	const { markers } = useMarkers();
+
+	return (
+		<div className="features-wrapper">
+	        {Object.entries(markers).map(([key, value]: any) => (
+	            <Card key={key} marker={value}/>
+	        ))}
+      </div>
+	)
+}
+
+Features.displayName="Features";

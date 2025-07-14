@@ -10,7 +10,7 @@ import './styles.scss';
 export const Card = ({ marker }: any) => {
 	const [ activeCharts, setActiveCharts ] = useState(true);
 	
-	const { id, data, geometryType, provider, columnName, graphicType } = marker;
+	const { id, data, geometryType, provider, columnName } = marker;
 
 	const isLine = geometryType === "LineString";
 	const isPoint = geometryType === 'Point';
@@ -32,7 +32,6 @@ export const Card = ({ marker }: any) => {
 					data={data} 
 					name={columnName} 
 					colorLabel={currentColor} 
-					graphicType={graphicType}
 				/>
 			}
 			{activeCharts && <Footer provider={provider}/>}
