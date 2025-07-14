@@ -1,21 +1,18 @@
 export const providers = [
 	{
 		name: "streets",
-		label: 'Streets', 
 		provider: "mapbox", 
 		source: 'composite',
 		layer: 'road', 
 		columnName: "type", 
 		geometryType: "LineString", 
-		graphicType: "dots"
 	},
 	{
 		name: "buildings",
-		label: 'Buildings', 
 		provider: "mapbox", 
+		source: 'composite',
 		layer: 'building', 
-		columnName: "subtype", 
+		columnName: "type", 
 		geometryType: "Polygon", 
-		graphicType: "dots"
 	},
 ];

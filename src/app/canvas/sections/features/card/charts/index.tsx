@@ -13,7 +13,6 @@ import * as d3 from 'd3';
 
 export const Charts = ({ data, name, colorLabel }: any) => {
 	const [ graphictTypeIndex, setGraphicTypeIndex ] = useState(0);
-
 	const { distribution, colors } = processData(data, name, colorLabel);
 	const sumOfValues = d3.sum(Object.values(distribution));
 
