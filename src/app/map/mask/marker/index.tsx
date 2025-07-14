@@ -23,7 +23,6 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { updateMarkers, rejectMarker } = useMarkers();
 
 	const { id, name, center, image, radius, boundaryType, geometryType, layer } = marker; 
-	const { lng, lat } = center;
 
 	const [ activeTrash, setActiveTrash ] = useState(false);
 	const [ dragging, setDragging ] = useState(false);
@@ -39,6 +38,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const onDrag = (e: any) => {
 		setDragPosition(e.lngLat);
 		if (boundaryType !== "iso") {
+			updateMarkers(id, "boundaryType", "circle");
 			updateMarkers(id, "center", e.lngLat);
 		}
 	};
@@ -47,6 +47,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		setDragPosition(null);
 		setTimeout(() => setDragging(false), 0);
 		if (boundaryType === "iso") {
+			updateMarkers(id, "boundaryType", "iso");
 			updateMarkers(id, "center", e.lngLat);
 		}
 	};
@@ -56,18 +57,18 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		!dragging && setActiveTrash((prev: boolean) => !prev);
 	}
 
-    const fetchBoundary = async (lat: any, lng: any) => {
-	  if (boundaryType === 'iso') {
-	    const data = await fetchIsochrone({ lat, lng });
-	    const currentBoundary = data.features[0];
-	    setBoundary(currentBoundary);
-	    updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
-	  } else {
-	    const circle = turf.circle([lng, lat], radius);
-	    setBoundary(circle);
-	    const geojson = getGeojson(circle, geometryType, layer);
-	    updateMarkers(id, 'data', geojson);
-	  }
+    const fetchBoundary = async () => {
+		if (boundaryType === 'iso') {
+			const data = await fetchIsochrone(marker);
+			const currentBoundary = data.features[0];
+			setBoundary(currentBoundary);
+			updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
+		} else if (center) {
+			const circle = turf.circle([center.lng, center.lat], radius);
+			setBoundary(circle);
+			const geojson = getGeojson(circle, geometryType, layer);
+			updateMarkers(id, 'data', geojson);
+		}
 	};
 
 	const debounce = (func: any, delay: any) => {
@@ -81,41 +82,39 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const fetchBoundaryDebounced = debounce(fetchBoundary, 100);
 	
 	useEffect(() => {
-		if (lat && lng) {
-			fetchBoundaryDebounced(lat, lng);
-		}
-	}, [lat, lng, boundaryType, radius]);
+		fetchBoundaryDebounced();
+	}, [ marker ]);
 
 	useEffect(() => {
 		if (!map) return;
 
 		const handler = () => {
-			if (lat && lng) {
-				fetchBoundaryDebounced(lat, lng);
-			}
+			fetchBoundaryDebounced();
 		};
 
 		map.on('zoomend', handler);
 		return () => {
 			map.off('zoomend', handler);
 		};
-	}, [map, lat, lng]);
+	}, [ map, boundaryType, center ]);
 
 	return (
-		<Marker
-			key={id}
-			longitude={dragPosition?.lng ?? center.lng}
-			latitude={dragPosition?.lat ?? center.lat}
-			anchor="bottom"
-			draggable
-			onDrag={onDrag}
-			onDragStart={onDragStart}
-			onDragEnd={onDragEnd}
-		>
-			<Icon name={name} image={image} onClick={activateTrash}/>
-			{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
-			{activeTrash && <Tooltip marker={marker} />}
-		</Marker>
+		<>
+			{center && <Marker
+				key={id}
+				longitude={dragPosition?.lng ?? center.lng}
+				latitude={dragPosition?.lat ?? center.lat}
+				anchor="bottom"
+				draggable
+				onDrag={onDrag}
+				onDragStart={onDragStart}
+				onDragEnd={onDragEnd}
+			>
+				<Icon name={name} image={image} onClick={activateTrash}/>
+				{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
+				{activeTrash && <Tooltip marker={marker} />}
+			</Marker>}
+		</>
 	)
 };
 

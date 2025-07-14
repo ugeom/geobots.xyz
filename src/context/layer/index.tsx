@@ -15,7 +15,7 @@ export const LayerProvider = ({ children }: any) => {
 	const { mapRef } = useGeo();
 
 	const getLayersIdsBySourceLayer = (sourceLayer: string) => {
-		return mapRef.current.getStyle()
+		return mapRef?.current?.getStyle()
 			.layers
 			.filter((layer: any) => layer['source-layer'] === sourceLayer)
 			.map((layer: any) => layer.id);
