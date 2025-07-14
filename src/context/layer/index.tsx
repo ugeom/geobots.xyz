@@ -37,9 +37,7 @@ export const LayerProvider = ({ children }: any) => {
 			const geomFeatures = filterGeometries(currentFeatures, boundary);
 			return toFeatureCollection(geomFeatures, fillProperty);
 		}
-
-		const lineFeatures: any = filterLines(currentFeatures, boundary, fillProperty);
-		const features = lineFeatures.filter((item: any) => Object.keys(item.properties).length !== 0);
+		const features: any = filterLines(currentFeatures, boundary, fillProperty);
 		return { type: 'FeatureCollection', features };
 	};
 

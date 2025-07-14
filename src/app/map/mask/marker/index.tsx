@@ -18,11 +18,11 @@ import * as turf from '@turf/turf';
 
 export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { fetchIsochrone } = useMapboxIsochroneApi();
-	const { mapRef } = useGeo();
+	const { mapRef, mapStyle } = useGeo();
 	const { getGeojson } = useLayer();
 	const { updateMarkers, rejectMarker } = useMarkers();
 
-	const { id, name, center, image, radius, boundaryType, geometryType, layer } = marker; 
+	const { id, name, center, image, radius, boundaryType, routingProfile, geometryType, layer, contoursMinutes } = marker; 
 
 	const [ activeTrash, setActiveTrash ] = useState(false);
 	const [ dragging, setDragging ] = useState(false);
@@ -83,18 +83,13 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	
 	useEffect(() => {
 		fetchBoundaryDebounced();
-	}, [ marker ]);
+	}, [ boundaryType, center, radius, contoursMinutes, routingProfile ]);
 
 	useEffect(() => {
 		if (!map) return;
-
-		const handler = () => {
-			fetchBoundaryDebounced();
-		};
-
-		map.on('zoomend', handler);
+		map.on('zoomend', fetchBoundaryDebounced);
 		return () => {
-			map.off('zoomend', handler);
+			map.off('zoomend', fetchBoundaryDebounced);
 		};
 	}, [ map, boundaryType, center ]);
 
@@ -112,7 +107,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 			>
 				<Icon name={name} image={image} onClick={activateTrash}/>
 				{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
-				{activeTrash && <Tooltip marker={marker} />}
+				{activeTrash && <Tooltip marker={marker}/>}
 			</Marker>}
 		</>
 	)
