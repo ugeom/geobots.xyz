@@ -88,7 +88,8 @@ export const MarkersProvider = ({children}: any) => {
 	return (
 		<MarkersContext.Provider value={{
 			markers, setMarkers,
-			activateMarker, addMarker, rejectMarker, updateMarkers,
+			activateMarker, 
+			addMarker, rejectMarker, updateMarkers,
 			currentMarkerId, setCurrentMarkerId,
 			currentImage, setCurrentImage,
 			currentProvider, setCurrentProvider,

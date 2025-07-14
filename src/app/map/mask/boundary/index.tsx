@@ -7,6 +7,7 @@ export const Boundary = ({ marker, boundary }: any) => {
   if (!boundary) return <></>
 
   const sourceId = `boundary-source-${id}`;
+  const eraserId = `boundary-eraser-${id}`; 
 
   const layer: any = {
     id: `boundary-stroke-${id}`,
@@ -20,6 +21,16 @@ export const Boundary = ({ marker, boundary }: any) => {
     }
   }
 
+  const eraserLayer = {
+    id: eraserId,
+    type: 'clip',
+    source: sourceId,
+    layout: {'clip-layer-types': ['model']},
+    minzoom: 14
+  };
+
+  const layers: any = [ layer, eraserLayer ]
+
   return (
     <Source 
       key={sourceId} 
@@ -27,7 +38,9 @@ export const Boundary = ({ marker, boundary }: any) => {
       type="geojson" 
       data={boundary}
     >
-      <Layer {...layer}/>
+      {layers.map((currentLayer: any) => 
+        <Layer key={currentLayer.id} {...currentLayer}/>)
+      }
     </Source>
   )
 }
