@@ -13,7 +13,7 @@ import { useMarkers } from 'context/markers';
 import { Map } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-export const Viewer = () => {
+export const MapView = () => {
 	const { mapRef, viewport, mapStyle } = useGeo();
 	const { addMarker, markers } = useMarkers();
 
@@ -38,4 +38,4 @@ export const Viewer = () => {
 	)
 }
 
-Viewer.displayName="Viewer";
+MapView.displayName="MapView";

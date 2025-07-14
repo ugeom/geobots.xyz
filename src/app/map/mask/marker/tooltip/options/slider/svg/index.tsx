@@ -2,10 +2,10 @@
 import { useCallback, Children, cloneElement } from 'react';
 
 // Context imports
-import { useRadiusSizes } from 'context/sizes/radius';
+import { useSliderSizes } from 'context/sizes/slider';
 
 export const SVGWrapper = ({ children }: any) => {
-	const { margin, width, height, setWidth, setHeight } = useRadiusSizes();
+	const { margin, width, height, setWidth, setHeight } = useSliderSizes();
 
 	const parentRef = useCallback((node: any)=> {
 	    if (node) {

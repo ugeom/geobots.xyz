@@ -10,6 +10,7 @@ import { Trash } from './trash';
 import { useMarkers } from 'context/markers';
 import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
 import { useLayer } from 'context/layer';
+import { useGeo } from 'context/geo';
 
 // Third-party imports
 import { Marker } from 'react-map-gl/mapbox';
@@ -17,14 +18,18 @@ import * as turf from '@turf/turf';
 
 export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { fetchIsochrone } = useMapboxIsochroneApi();
+	const { mapRef } = useGeo();
 	const { getGeojson } = useLayer();
 	const { updateMarkers, rejectMarker } = useMarkers();
-	const { id, center, image, radius, name, boundaryType, geometryType, layer } = marker; 
+
+	const { id, name, center, image, radius, boundaryType, geometryType, layer } = marker; 
 	const { lng, lat } = center;
 
 	const [ activeTrash, setActiveTrash ] = useState(false);
 	const [ dragging, setDragging ] = useState(false);
 	const [ dragPosition, setDragPosition ] = useState<any>(null);
+
+	const map = mapRef?.current?.getMap();
 
 	const onDragStart = (e: any) =>  {
 		setDragging(true);
@@ -51,23 +56,50 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		!dragging && setActiveTrash((prev: boolean) => !prev);
 	}
 
+    const fetchBoundary = async (lat: any, lng: any) => {
+	  if (boundaryType === 'iso') {
+	    const data = await fetchIsochrone({ lat, lng });
+	    const currentBoundary = data.features[0];
+	    setBoundary(currentBoundary);
+	    updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
+	  } else {
+	    const circle = turf.circle([lng, lat], radius);
+	    setBoundary(circle);
+	    const geojson = getGeojson(circle, geometryType, layer);
+	    updateMarkers(id, 'data', geojson);
+	  }
+	};
+
+	const debounce = (func: any, delay: any) => {
+		let timer: any;
+		return (...args: any) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => func(...args), delay);
+		};
+	};
+
+	const fetchBoundaryDebounced = debounce(fetchBoundary, 100);
+	
 	useEffect(() => {
-	    const fetchBoundary = async (marker: any) => {
-	      if (boundaryType === 'iso') {
-	        const data = await fetchIsochrone(marker);
-	        const currentBoundary = data.features[0]
-	        setBoundary(currentBoundary);
-	        updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
-	      } 
-	      else {
-	        const circle = turf.circle([ lng, lat ], radius);
-	        setBoundary(circle);
-	        const geojson = getGeojson(circle, geometryType, layer);
-	        updateMarkers(id, 'data', geojson);
-	      }
-	    };
-	    fetchBoundary(marker);
-	  }, [ marker ]);
+		if (lat && lng) {
+			fetchBoundaryDebounced(lat, lng);
+		}
+	}, [lat, lng, boundaryType, radius]);
+
+	useEffect(() => {
+		if (!map) return;
+
+		const handler = () => {
+			if (lat && lng) {
+				fetchBoundaryDebounced(lat, lng);
+			}
+		};
+
+		map.on('zoomend', handler);
+		return () => {
+			map.off('zoomend', handler);
+		};
+	}, [map, lat, lng]);
 
 	return (
 		<Marker

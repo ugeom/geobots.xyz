@@ -1,6 +1,8 @@
 // App imports
 import { Panel } from './panel'; 
-import { Canvas } from './canvas';
+import { Sections } from './sections';
+import { MapView } from './map';
+import { Widgets } from './widgets';
 import './styles.scss';
 
 // Context imports
@@ -19,7 +21,11 @@ export const App = () => {
     <ContextProvider>
       <div className="App"> 
         <Panel/>
-        <Canvas/>
+        <div className="canvas">
+          <Sections/>
+          <MapView/>
+          <Widgets/>
+        </div>
       </div>
     </ContextProvider>
   );

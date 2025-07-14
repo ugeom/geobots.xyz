@@ -11,7 +11,7 @@ import { Markers } from './markers';
 import './styles.scss';
 
 // Context imports
-import { useRadiusSizes } from 'context/sizes/radius';
+import { useSliderSizes } from 'context/sizes/slider';
 
 // Third-party imports
 import * as d3 from 'd3';
@@ -19,7 +19,7 @@ import * as d3 from 'd3';
 export const Slider = ({ markerId, minBound, maxBound, markerProperty, title, initialState }: any) => {
   const [ handlerPosition, setHandlerPosition ] = useState(initialState);
 
-  const { innerWidth, innerHeight } = useRadiusSizes();
+  const { innerWidth, innerHeight } = useSliderSizes();
   
   const circleHeight = 10;
   const offset = 10;
