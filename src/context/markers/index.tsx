@@ -48,6 +48,7 @@ export const MarkersProvider = ({children}: any) => {
 				boundaryType: "circle",
 				routingProfile: "walking",
 				image: currentImage,
+				activeTrash: false,
 				...currentProvider,
 			};
 			setMarkers((prev: any) => ({ 

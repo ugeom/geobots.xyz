@@ -8,88 +8,36 @@ import { Trash } from './trash';
 
 // Context imports
 import { useMarkers } from 'context/markers';
-import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
-import { useLayer } from 'context/layer';
 import { useGeo } from 'context/geo';
+import { useMarkerEvents } from 'context/events/marker';
 
 // Third-party imports
 import { Marker } from 'react-map-gl/mapbox';
-import * as turf from '@turf/turf';
 
 export const CustomMarker = ({ marker, setBoundary }: any) => {
-	const { fetchIsochrone } = useMapboxIsochroneApi();
-	const { mapRef, mapStyle } = useGeo();
-	const { getGeojson } = useLayer();
-	const { updateMarkers, rejectMarker } = useMarkers();
+	const { mapRef } = useGeo();
+	
+	const { rejectMarker } = useMarkers();
+	const { onDragStart, onDrag, onDragEnd, getCurrentBoundary, activateTrash } = useMarkerEvents();
+	const { id, name, center, image, radius, boundaryType, routingProfile, contoursMinutes, activeTrash } = marker;
 
-	const { id, name, center, image, radius, boundaryType, routingProfile, geometryType, layer, contoursMinutes } = marker; 
-
-	const [ activeTrash, setActiveTrash ] = useState(false);
-	const [ dragging, setDragging ] = useState(false);
 	const [ dragPosition, setDragPosition ] = useState<any>(null);
 
 	const map = mapRef?.current?.getMap();
 
-	const onDragStart = (e: any) =>  {
-		setDragging(true);
-		setActiveTrash(false);
-	};
-	
-	const onDrag = (e: any) => {
-		setDragPosition(e.lngLat);
-		if (boundaryType !== "iso") {
-			updateMarkers(id, "boundaryType", "circle");
-			updateMarkers(id, "center", e.lngLat);
-		}
-	};
-
-	const onDragEnd = (e: any) => {
-		setDragPosition(null);
-		setTimeout(() => setDragging(false), 0);
-		if (boundaryType === "iso") {
-			updateMarkers(id, "boundaryType", "iso");
-			updateMarkers(id, "center", e.lngLat);
-		}
-	};
-
-	const activateTrash = (e: any) => {
-		e.stopPropagation();
-		!dragging && setActiveTrash((prev: boolean) => !prev);
+	const updateBoundary = () => {
+		getCurrentBoundary(marker, setBoundary);
 	}
-
-    const fetchBoundary = async () => {
-		if (boundaryType === 'iso') {
-			const data = await fetchIsochrone(marker);
-			const currentBoundary = data.features[0];
-			setBoundary(currentBoundary);
-			updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
-		} else if (center) {
-			const circle = turf.circle([center.lng, center.lat], radius);
-			setBoundary(circle);
-			const geojson = getGeojson(circle, geometryType, layer);
-			updateMarkers(id, 'data', geojson);
-		}
-	};
-
-	const debounce = (func: any, delay: any) => {
-		let timer: any;
-		return (...args: any) => {
-			clearTimeout(timer);
-			timer = setTimeout(() => func(...args), delay);
-		};
-	};
-
-	const fetchBoundaryDebounced = debounce(fetchBoundary, 100);
 	
 	useEffect(() => {
-		fetchBoundaryDebounced();
+		updateBoundary();
 	}, [ boundaryType, center, radius, contoursMinutes, routingProfile ]);
 
 	useEffect(() => {
 		if (!map) return;
-		map.on('zoomend', fetchBoundaryDebounced);
+		map.on('zoomend', updateBoundary);
 		return () => {
-			map.off('zoomend', fetchBoundaryDebounced);
+			map.off('zoomend', updateBoundary);
 		};
 	}, [ map, boundaryType, center ]);
 
@@ -101,11 +49,11 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 				latitude={dragPosition?.lat ?? center.lat}
 				anchor="bottom"
 				draggable
-				onDrag={onDrag}
-				onDragStart={onDragStart}
-				onDragEnd={onDragEnd}
+				onDrag={(e: any) => onDrag(e, id, boundaryType, setDragPosition)}
+				onDragStart={(e: any) => onDragStart(e, id)}
+				onDragEnd={(e: any) => onDragEnd(e, id, boundaryType, setDragPosition)}
 			>
-				<Icon name={name} image={image} onClick={activateTrash}/>
+				<Icon name={name} image={image} onClick={(e: any) => activateTrash(e, id, activeTrash)}/>
 				{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
 				{activeTrash && <Tooltip marker={marker}/>}
 			</Marker>}
