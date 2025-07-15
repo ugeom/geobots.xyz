@@ -1,33 +1,33 @@
 // App  imports
 import './styles.scss';
 
-export const Trash = ({ onClick }: any) => {
+export const Cross = ({ onClick }: any) => {
 	return (
       	<svg 
       		viewBox="0 0 20 20" 
       		width="20" 
-      		style={{position: "absolute", right: "-10", top: "-10", cursor: "pointer"}}
+      		className="cross-wrapper"
       		onClick={onClick}
       	>
       		<circle
       			cx={10}
       			cy={10}
       			r={9}
-      			className="trash-background"
+      			className="cross-background"
       		/>
       		<line
 				x1={5}
 				x2={15}
 				y1={5}
 				y2={15}
-				className="trash-cross"
+				className="cross-line"
 			/>
 			<line
 				x1={15}
 				x2={5}
 				y1={5}
 				y2={15}
-				className="trash-cross"
+				className="cross-line"
 			/>
 			<rect
 				x={0}
@@ -39,3 +39,5 @@ export const Trash = ({ onClick }: any) => {
 		</svg>
 	)
 }
+
+Cross.displayName="Cross"

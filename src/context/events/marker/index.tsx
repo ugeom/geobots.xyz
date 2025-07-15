@@ -45,7 +45,7 @@ export const MarkerEventsProvider = ({ children }: any) => {
 		!dragging && updateMarkers(id, 'activeTrash', activeTrash ? false : true);
 	};
 
-	const getCurrentBoundary = async (marker: any, setBoundary: any) => {
+	const getBoundary = async (marker: any, setBoundary: any) => {
 		const { id, radius, boundaryType, center, layer, geometryType } = marker
 		if (boundaryType === 'iso') {
 			const data = await fetchIsochrone(marker);
@@ -65,7 +65,7 @@ export const MarkerEventsProvider = ({ children }: any) => {
 			onDragStart,
 			onDrag,
 			onDragEnd,
-			getCurrentBoundary,
+			getBoundary,
 			activateTrash
 		}}>
 			{children}

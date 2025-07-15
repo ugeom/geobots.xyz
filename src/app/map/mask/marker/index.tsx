@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 // App imports
 import { Icon } from './icon';
 import { Tooltip } from './tooltip';
-import { Trash } from './trash';
+import { Cross } from './cross';
 
 // Context imports
 import { useMarkers } from 'context/markers';
@@ -16,17 +16,16 @@ import { Marker } from 'react-map-gl/mapbox';
 
 export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { mapRef } = useGeo();
-	
-	const { rejectMarker } = useMarkers();
-	const { onDragStart, onDrag, onDragEnd, getCurrentBoundary, activateTrash } = useMarkerEvents();
-	const { id, name, center, image, radius, boundaryType, routingProfile, contoursMinutes, activeTrash } = marker;
+	const { addPin, rejectMarker } = useMarkers();
+	const { onDragStart, onDrag, onDragEnd, getBoundary, activateTrash } = useMarkerEvents();
 
 	const [ dragPosition, setDragPosition ] = useState<any>(null);
 
+	const { id, name, center, image, radius, boundaryType, routingProfile, contoursMinutes, activeTrash } = marker;
 	const map = mapRef?.current?.getMap();
 
 	const updateBoundary = () => {
-		getCurrentBoundary(marker, setBoundary);
+		getBoundary(marker, setBoundary);
 	}
 	
 	useEffect(() => {
@@ -39,7 +38,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		return () => {
 			map.off('zoomend', updateBoundary);
 		};
-	}, [ map, boundaryType, center ]);
+	}, [ map, boundaryType, center, radius, contoursMinutes ]);
 
 	return (
 		<>
@@ -53,8 +52,13 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 				onDragStart={(e: any) => onDragStart(e, id)}
 				onDragEnd={(e: any) => onDragEnd(e, id, boundaryType, setDragPosition)}
 			>
-				<Icon name={name} image={image} onClick={(e: any) => activateTrash(e, id, activeTrash)}/>
-				{activeTrash && <Trash onClick={(e: any) => rejectMarker(e, id)}/>}
+				<Icon 
+					name={name} 
+					image={image}
+					activePointer={addPin}
+					onClick={(e: any) => activateTrash(e, id, activeTrash)}
+				/>
+				{activeTrash && <Cross onClick={(e: any) => rejectMarker(e, id)}/>}
 				{activeTrash && <Tooltip marker={marker}/>}
 			</Marker>}
 		</>
