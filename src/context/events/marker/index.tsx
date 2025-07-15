@@ -3,7 +3,7 @@ import { useState, useContext, createContext } from 'react';
 
 // Context imports
 import { useMarkers } from 'context/markers';
-import { useLayer } from 'context/layer';
+import { useLayers } from 'context/layers';
 import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
 
 // Third-party imports
@@ -15,7 +15,7 @@ export const useMarkerEvents = () => useContext(MarkerEventsContext)
 
 export const MarkerEventsProvider = ({ children }: any) => {
 	const { updateMarkers } = useMarkers();
-	const { getGeojson } = useLayer();
+	const { getGeojson } = useLayers();
 	const { fetchIsochrone } = useMapboxIsochroneApi();
 
 	const [ dragging, setDragging ] = useState(false);
@@ -46,7 +46,8 @@ export const MarkerEventsProvider = ({ children }: any) => {
 	};
 
 	const getBoundary = async (marker: any, setBoundary: any) => {
-		const { id, radius, boundaryType, center, layer, geometryType } = marker
+		const { id, radius, boundaryType, center, layer, geometryType } = marker;
+		
 		if (boundaryType === 'iso') {
 			const data = await fetchIsochrone(marker);
 			const currentBoundary = data.features[0];

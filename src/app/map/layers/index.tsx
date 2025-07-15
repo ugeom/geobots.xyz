@@ -6,7 +6,7 @@ import { Boundary } from './boundary';
 import { Features } from './features';
 import { CustomMarker } from './marker';
 
-export const Mask = ({ marker }: any) => {
+export const Layers = ({ marker }: any) => {
   const [ boundary, setBoundary ] = useState<any>(null);
 
   return (
@@ -18,4 +18,4 @@ export const Mask = ({ marker }: any) => {
   )
 };
 
-Mask.displayName="Mask";
+Layers.displayName="Layers";

@@ -10,8 +10,8 @@ export const Features = () => {
 
 	return (
 		<div className="features-wrapper">
-	        {Object.entries(markers).map(([key, value]: any) => (
-	            <Card key={key} marker={value}/>
+	        {Object.entries(markers).map(([key, marker]: any) => (
+	            <Card key={key} marker={marker}/>
 	        ))}
       </div>
 	)

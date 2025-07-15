@@ -39,10 +39,10 @@ const getLinesInside = (lineFeatures: any[], boundary: any) => {
       const split = turf.lineSplit(line, boundary);
       return split.features
         .filter((feature) => turf.booleanWithin(feature, boundary))
-        .map((feature) => {
-          feature.properties = line.properties;
-          return feature;
-        });
+        .map((feature) => ({
+          ...feature,
+          properties: line.properties,
+        }));
     }
     return [];
   });

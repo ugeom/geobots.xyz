@@ -20,6 +20,8 @@ export const Card = ({ marker }: any) => {
 		isPoint ? 'circle-color' :
 		'fill-color';
 
+	if (data?.features?.length === 0) return <></>;
+
 	return (
 		<div key={id} className="agent-card">
 		  	<Header 

@@ -38,7 +38,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 		return () => {
 			map.off('zoomend', updateBoundary);
 		};
-	}, [ map, boundaryType, center, radius, contoursMinutes ]);
+	}, [ map, boundaryType, center, radius, contoursMinutes, routingProfile ]);
 
 	return (
 		<>

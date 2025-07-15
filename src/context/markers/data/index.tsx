@@ -1,11 +1,11 @@
 export const providers = [
 	{
 		name: "streets",
-		provider: "mapbox", 
+		provider: "mapbox",
 		source: 'composite',
-		layer: 'road', 
-		columnName: "type", 
-		geometryType: "LineString", 
+		layer: 'road',
+		columnName: "type",
+		geometryType: "LineString",
 	},
 	{
 		name: "buildings",
@@ -14,5 +14,37 @@ export const providers = [
 		layer: 'building', 
 		columnName: "type", 
 		geometryType: "Polygon", 
+	},
+	{
+		name: "structure",
+		provider: "mapbox", 
+		source: 'composite',
+		layer: 'structure', 
+		columnName: "type", 
+		geometryType: "Polygon", 
+	},
+	{
+		name: "landuse",
+		provider: "mapbox", 
+		source: 'composite',
+		layer: 'landuse', 
+		columnName: "type", 
+		geometryType: "Polygon", 
+	},
+	{
+		name: "water",
+		provider: "mapbox", 
+		source: 'composite',
+		layer: 'water', 
+		columnName: "type", 
+		geometryType: "Polygon", 
+	},
+	{
+		name: "waterway",
+		provider: "mapbox", 
+		source: 'composite',
+		layer: 'waterway', 
+		columnName: "type", 
+		geometryType: "LineString", 
 	},
 ];

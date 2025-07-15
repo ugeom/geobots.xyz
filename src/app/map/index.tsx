@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // App imports
-import { Mask } from './mask';
+import { Layers } from './layers';
 import { Geolocate } from './geolocate';
 
 // Context imports
@@ -31,7 +31,7 @@ export const MapView = () => {
 		>
 			{isMapLoaded && 
 				Object.entries(markers).map(([ key, value ]: any) => 
-					<Mask key={key} marker={value}/>
+					<Layers key={key} marker={value}/>
 			)}
 			<Geolocate/>
 		</Map>

@@ -7,11 +7,11 @@ import { fillProperties, toFeatureCollection, filterGeometries, filterLines } fr
 // Context imports
 import { useGeo } from 'context/geo';
 
-const LayerContext: React.Context<any> = createContext(null);
+const LayersContext: React.Context<any> = createContext(null);
 
-export const useLayer = () => useContext(LayerContext)
+export const useLayers = () => useContext(LayersContext)
 
-export const LayerProvider = ({ children }: any) => {
+export const LayersProvider = ({ children }: any) => {
 	const { mapRef } = useGeo();
 
 	const getLayersIdsBySourceLayer = (sourceLayer: string) => {
@@ -42,10 +42,10 @@ export const LayerProvider = ({ children }: any) => {
 	};
 
 	return (
-		<LayerContext.Provider value={{ getGeojson }}>
+		<LayersContext.Provider value={{ getGeojson }}>
 			{children}
-		</LayerContext.Provider>
+		</LayersContext.Provider>
 	)
 }
 
-LayerContext.displayName = "LayerContext";
+LayersContext.displayName = "LayersContext";
