@@ -1,16 +1,19 @@
 // App imports
 import './styles.scss';
 
+// App imports
+import { providersArray } from './providers';
+
 // Context imports
 import { useMarkers } from 'context/markers';
 
 export const Agents = ({ imageUrls }: any) => {
-	const { activateMarker, providers } = useMarkers();
+	const { activateMarker } = useMarkers();
 	const baseUrl = process.env.PUBLIC_URL + '/static/agents/';
 
 	return (
 		<div className="agent-grid">
-		  {providers.map((provider: any) => {
+		  {providersArray.map((provider: any) => {
 		  	const name = provider.name;
 		  	const imageUrl = baseUrl + name + '.svg';
 		  	const processedName = name.replace("_", " ");

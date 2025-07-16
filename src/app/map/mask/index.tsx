@@ -3,19 +3,19 @@ import { useState } from 'react';
 
 // App imports
 import { Boundary } from './boundary';
-import { Features } from './features';
 import { CustomMarker } from './marker';
+import { Features } from './features';
 
-export const Layers = ({ marker }: any) => {
+export const Mask = ({ key, marker }: any) => {
   const [ boundary, setBoundary ] = useState<any>(null);
 
   return (
-    <div key={marker.id}>
+    <div key={key}>
       <Boundary marker={marker} boundary={boundary}/>
-      <Features marker={marker}/>
       <CustomMarker marker={marker} setBoundary={setBoundary}/>
+      <Features marker={marker}/>
     </div>
   )
 };
 
-Layers.displayName="Layers";
+Mask.displayName="Mask";
