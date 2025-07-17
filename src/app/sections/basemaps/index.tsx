@@ -1,5 +1,5 @@
 // App imports
-import { basemapsArray } from './data';
+import { basemaps } from 'context/data/basemaps';
 import './styles.scss'
 
 // Context imports
@@ -11,7 +11,7 @@ export const Basemaps = () => {
 
 	return (
 		<div className="cards">
-			{basemapsArray.map((item, index) => {
+			{basemaps.map((item, index) => {
 			  	const [[name, { img, url }]] = Object.entries(item);
 			  	const imageUrl = baseUrl + `${img}.png`;
 			  	

@@ -37,18 +37,17 @@ export const Sections = () => {
 	  ];
 
 	const section = sections.find((s) => s.id === activePage);
+
 	if (!section) return null;
 
 	const { title, subtitle, Component } = section;
 
 	return (
 		<div className="sections">
-			<div className="section-grid">
-		      	<Cross setActivePage={setActivePage}/>
-		        <h2>{title}</h2>
-		        <p>{subtitle}</p>
-		        <Component/>
-	        </div>
+			<Cross setActivePage={setActivePage}/>
+	        <h2>{title}</h2>
+	        <p>{subtitle}</p>
+		    <Component/>
 	    </div>
 	)
 }

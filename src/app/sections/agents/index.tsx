@@ -1,5 +1,5 @@
 // App imports
-import { providersArray } from './providers';
+import { providers } from 'context/data/providers';
 
 // Context imports
 import { useMarkers } from 'context/markers';
@@ -10,7 +10,7 @@ export const Agents = ({ imageUrls }: any) => {
 
 	return (
 		<div className="cards">
-		  {providersArray.map((provider: any) => {
+		  {providers.map((provider: any) => {
 		  	const { name } = provider;
 		  	const imageUrl = baseUrl + `${name}.svg`;
 		  	const processedName = name.replace("_", " ");

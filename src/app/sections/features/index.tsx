@@ -1,5 +1,6 @@
 // App imports
 import { Card } from './card';
+import "./scrollbar.scss";
 
 // Context imports
 import { useMarkers } from 'context/markers';

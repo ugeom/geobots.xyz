@@ -1,4 +1,4 @@
-export const basemapsArray = [
+export const basemaps = [
 	{
 		"Mapbox Light": {
 			url: "mapbox://styles/mapbox/light-v11",

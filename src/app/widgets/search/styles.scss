@@ -16,9 +16,8 @@
 // mobile-style
 @media screen and (max-width: 768px) {
   .search-wrapper {
-    top: 65px;
-    right: 15px;
+    right: 10px;
     transform: none;
-    width: calc(100% - 40px);
+    width: calc(100% - 30px);
   }
 }

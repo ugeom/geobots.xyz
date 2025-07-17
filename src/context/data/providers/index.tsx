@@ -1,4 +1,4 @@
-export const providersArray = [
+export const providers = [
 	{
 		name: "streets",
 		provider: "mapbox",
