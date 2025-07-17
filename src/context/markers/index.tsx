@@ -15,8 +15,6 @@ export const MarkersProvider = ({children}: any) => {
 	const [ currentImage, setCurrentImage ] = useState<any>(null);
 	const [ currentProvider, setCurrentProvider ] = useState<any>(null);
 
-	const [ radius, setRadius ] = useState(0.5);
-
 	const getMarkerId = (markers: any) => {
 	    const prevIds = Object.keys(markers).map(Number);
 	    const maxId = 
@@ -40,7 +38,7 @@ export const MarkersProvider = ({children}: any) => {
 			const newMarker = {
 				id,
 				center,
-				radius,
+				radius: 0.5,
 				contoursMinutes: 10,
 				boundaryType: "circle",
 				routingProfile: "walking",
@@ -77,7 +75,6 @@ export const MarkersProvider = ({children}: any) => {
 	useEffect(() => {
 		const handleKeyDown = (event: any) => event.keyCode === 27 && setAddPin(false);
 		window.addEventListener('keydown', handleKeyDown);
-		
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
@@ -92,7 +89,6 @@ export const MarkersProvider = ({children}: any) => {
 			currentImage, setCurrentImage,
 			currentProvider, setCurrentProvider,
 			activePage, setActivePage,
-			radius, setRadius,
 			addPin, setAddPin,
 		}}>
 			{children}

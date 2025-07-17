@@ -29,14 +29,16 @@ export const Card = ({ marker }: any) => {
 		  		activeCharts={activeCharts} 
 		  		setActiveCharts={setActiveCharts}
 		  	/>
-			{activeCharts && 
-				<Charts 
-					data={data} 
-					name={columnName} 
-					colorLabel={currentColor} 
-				/>
+			{activeCharts &&
+				<>
+					<Charts
+						data={data}
+						name={columnName}
+						colorLabel={currentColor}
+					/>
+					<Footer provider={provider}/>
+				</>
 			}
-			{activeCharts && <Footer provider={provider}/>}
 		</div>
 	)
 }

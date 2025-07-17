@@ -4,11 +4,14 @@ import { Features } from './features';
 import { Basemaps } from './basemaps';
 import './styles.scss';
 
+// Utils imports
+import { Cross } from 'utils/cross';
+
 // Context imports
 import { useMarkers } from 'context/markers';
 
 export const Sections = () => {
-	const { activePage } = useMarkers();
+	const { activePage, setActivePage } = useMarkers();
 
 	if (!activePage) return null;
 
@@ -40,11 +43,12 @@ export const Sections = () => {
 
 	return (
 		<div className="sections">
-	      <div className="section-grid">
-	        <h2>{title}</h2>
-	        <p className="section-items">{subtitle}</p>
-	        <Component/>
-	      </div>
+			<div className="section-grid">
+		      	<Cross setActivePage={setActivePage}/>
+		        <h2>{title}</h2>
+		        <p>{subtitle}</p>
+		        <Component/>
+	        </div>
 	    </div>
 	)
 }

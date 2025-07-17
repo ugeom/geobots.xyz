@@ -7,12 +7,14 @@ import { useGeo } from 'context/geo';
 
 export const Basemaps = () => {
 	const { setMapStyle } = useGeo();
+	const baseUrl = process.env.PUBLIC_URL + '/static/basemaps/';
 
 	return (
-		<div className="agent-grid">
+		<div className="cards">
 			{basemapsArray.map((item, index) => {
 			  	const [[name, { img, url }]] = Object.entries(item);
-			  	const imageUrl = process.env.PUBLIC_URL + `/static/basemaps/${img}.png`;
+			  	const imageUrl = baseUrl + `${img}.png`;
+			  	
 			  	return (
 			  		<div key={index}>
 				    	<img 

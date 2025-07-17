@@ -1,7 +1,4 @@
 // App imports
-import './styles.scss';
-
-// App imports
 import { providersArray } from './providers';
 
 // Context imports
@@ -12,16 +9,16 @@ export const Agents = ({ imageUrls }: any) => {
 	const baseUrl = process.env.PUBLIC_URL + '/static/agents/';
 
 	return (
-		<div className="agent-grid">
+		<div className="cards">
 		  {providersArray.map((provider: any) => {
-		  	const name = provider.name;
-		  	const imageUrl = baseUrl + name + '.svg';
+		  	const { name } = provider;
+		  	const imageUrl = baseUrl + `${name}.svg`;
 		  	const processedName = name.replace("_", " ");
 
 		  	return (
 			  <div 
 			  	key={name}
-			  	className="agent-grid-card"
+			  	className="card"
 			  	onClick={() => activateMarker(imageUrl, provider)} 
 			  >
 			    <img src={imageUrl} alt={name}/>
