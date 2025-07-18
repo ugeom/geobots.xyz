@@ -36,16 +36,17 @@
   overflow-x: hidden;
   max-height: calc(100vh - 160px);
 }
+.card-wrapper {
+  display: grid;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  text-transform: capitalize;
+}
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  text-transform: capitalize;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
   height: min-content;
   span {
     font-size: 0.9em;
