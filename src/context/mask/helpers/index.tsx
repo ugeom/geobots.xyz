@@ -1,6 +1,7 @@
 // Third-party imports
 import * as turf from '@turf/turf';
 
+// Constants
 const colorPalette = [
   'rgba(216, 131, 255, 0.6)',
   'rgba(247, 121, 118, 0.6)',
@@ -13,6 +14,12 @@ const colorPalette = [
   'rgba(155, 48, 255, 0.6)',
   'rgba(34, 255, 102, 0.6)'
 ];
+
+const fillProperties: any = {
+  Point: 'circle-color',
+  Polygon: 'fill-color',
+  LineString: 'line-color',
+};
 
 const hashStringToNumber = (str: string): number => {
   const safeStr: any = String(str ?? "");
@@ -77,12 +84,6 @@ export const toFeatureCollection = (originalFeatures: any[], fillProperty: strin
     addColorToFeature(geometry, properties, fillProperty)
   );
   return { type: 'FeatureCollection', features };
-};
-
-const fillProperties: any = {
-  Point: 'circle-color',
-  Polygon: 'fill-color',
-  LineString: 'line-color',
 };
 
 const getLayersIdsBySourceLayer = (currentMap: any, sourceLayer: string) => {

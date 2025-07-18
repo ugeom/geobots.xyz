@@ -1,8 +1,8 @@
 // Third-party imports
 import { Source, Layer } from 'react-map-gl/mapbox';
 
-export const Polygons = ({ source, marker }: any) => {
-  const { id, data } = marker;
+export const Polygons = ({ marker }: any) => {
+  const { id, data, source } = marker;
 
   const sourceId = `polygons-source-${id}`;
   const layerId = `polygons-layer-${id}`;

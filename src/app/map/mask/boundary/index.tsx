@@ -1,39 +1,26 @@
+// Utils imports
+import { getStrokeLayer, getEraserLayer } from 'utils/layers/boundary';
+
 // Third party imports
 import { Source, Layer } from 'react-map-gl/mapbox';
 
 export const Boundary = ({ marker, boundary }: any) => {
   const { id } = marker;
 
-  if (!boundary) return <></>
-
   const sourceId = `boundary-source-${id}`;
+
+  if (!boundary) return <></>;
+
+  const strokeId = `boundary-stroke-${id}`;
   const eraserId = `boundary-eraser-${id}`; 
 
-  const layer: any = {
-    id: `boundary-stroke-${id}`,
-    type: 'line',
-    source: sourceId,
-    paint: {
-      'line-width': 4,
-      'line-color': "rgba(166, 204, 245, 1)",
-      'line-opacity': 0.8,
-      'line-dasharray': [2, 2],
-    }
-  }
+  const strokeLayer = getStrokeLayer(strokeId, sourceId);
+  const eraserLayer = getEraserLayer(eraserId, sourceId);
 
-  const eraserLayer = {
-    id: eraserId,
-    type: 'clip',
-    source: sourceId,
-    layout: {'clip-layer-types': ['model']},
-    minzoom: 14
-  };
-
-  const layers: any = [ layer, eraserLayer ]
+  const layers: any = [ strokeLayer, eraserLayer ]
 
   return (
     <Source 
-      key={sourceId} 
       id={sourceId} 
       type="geojson" 
       data={boundary}

@@ -15,28 +15,25 @@ export const Sections = () => {
 
 	if (!activePage) return null;
 
-	const sections = [
-	    {
-	      id: 'agent',
+	const sectionMap: any = {
+	    agent: {
 	      title: 'Select Your Agent',
 	      subtitle: 'Choose an agent from the options to explore the data they represent.',
 	      Component: Agents,
 	    },
-	    {
-	      id: 'basemaps',
+	    basemaps: {
 	      title: 'Select Your Basemap',
 	      subtitle: 'Choose a basemap from the options below.',
 	      Component: Basemaps,
 	    },
-	    {
-	      id: 'features',
+	    features: {
 	      title: 'Visible Features',
 	      subtitle: 'Custom Data Visualizations',
 	      Component: Features,
 	    },
-	  ];
+	  };
 
-	const section = sections.find((s) => s.id === activePage);
+	const section = sectionMap[activePage];
 
 	if (!section) return null;
 

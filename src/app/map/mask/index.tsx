@@ -6,11 +6,11 @@ import { Boundary } from './boundary';
 import { CustomMarker } from './marker';
 import { Features } from './features';
 
-export const Mask = ({ key, marker }: any) => {
+export const Mask = ({ marker }: any) => {
   const [ boundary, setBoundary ] = useState<any>(null);
 
   return (
-    <div key={key}>
+    <div key={marker.id}>
       <Boundary marker={marker} boundary={boundary}/>
       <CustomMarker marker={marker} setBoundary={setBoundary}/>
       <Features marker={marker}/>
