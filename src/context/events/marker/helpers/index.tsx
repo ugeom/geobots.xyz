@@ -1,12 +1,6 @@
 // Third-party imports
 import * as turf from '@turf/turf';
 
-export const fillProperties: any = {
-	Point: 'circle-color',
-	Polygon: 'fill-color',
-	LineString: 'line-color',
-}
-
 const colorPalette = [
   'rgba(216, 131, 255, 0.6)',
   'rgba(247, 121, 118, 0.6)',
@@ -58,13 +52,17 @@ const getFeaturesWithinBoundary = (features: any[], boundary: any) => {
   });
 };
 
+const addColorToFeature = (geometry: any, properties: any, fillProperty: any) => {
+  const color = getFeatureColor(properties.type, colorPalette);
+  return { type: 'Feature', geometry, properties: { ...properties, [fillProperty]: color } };
+};
+
 export const filterLines = (mapFeatures: any[], boundary: any, fillProperty: string) => {
   if (!mapFeatures) return [];
 
   return mapFeatures.flatMap(({ geometry, layer, properties }: any) => {
-    const color = getFeatureColor(properties.type, colorPalette)
-    const enrichedProperties = { ...properties, [fillProperty]: color };
-    const lineFeatures = extractLineFeatures(geometry, enrichedProperties);
+    const enrichedFeature = addColorToFeature(geometry, properties, fillProperty);
+    const lineFeatures = extractLineFeatures(enrichedFeature.geometry, enrichedFeature.properties);
     return getFeaturesWithinBoundary(lineFeatures, boundary);
   });
 };
@@ -75,14 +73,41 @@ export const filterGeometries = (features: any[], boundary: any) =>
   );
 
 export const toFeatureCollection = (originalFeatures: any[], fillProperty: string): any => {
-  const features = originalFeatures.map(({ geometry, properties, layer, source }: any) => {
-    const color = getFeatureColor(properties.type, colorPalette);
+  const features = originalFeatures.map(({ geometry, properties }: any) =>
+    addColorToFeature(geometry, properties, fillProperty)
+  );
+  return { type: 'FeatureCollection', features };
+};
 
-    return {
-      type: 'Feature',
-      geometry,
-      properties: { ...properties, [fillProperty]: color},
-    };
-  });
+const fillProperties: any = {
+  Point: 'circle-color',
+  Polygon: 'fill-color',
+  LineString: 'line-color',
+};
+
+const getLayersIdsBySourceLayer = (currentMap: any, sourceLayer: string) => {
+  return currentMap.getStyle()
+    .layers
+    .filter((layer: any) => layer['source-layer'] === sourceLayer)
+    .map((layer: any) => layer.id);
+};
+
+const getFeaturesBySource = (currentMap: any, currentSource: any) => {
+  const layers = getLayersIdsBySourceLayer(currentMap, currentSource);
+  const currentFeatures = currentMap.queryRenderedFeatures({ layers });
+  return currentFeatures;
+};
+
+export const getGeojson = (currentMap: any, boundary: any, geometryType: string, source: any) => {
+  const fillProperty = fillProperties[geometryType] || 'fill-color';
+  const isLine = geometryType === 'LineString' || geometryType === 'MultiLineString';
+
+  const currentFeatures = getFeaturesBySource(currentMap, source);
+
+  if (!isLine) {
+    const geomFeatures = filterGeometries(currentFeatures, boundary);
+    return toFeatureCollection(geomFeatures, fillProperty);
+  }
+  const features: any = filterLines(currentFeatures, boundary, fillProperty);
   return { type: 'FeatureCollection', features };
 };

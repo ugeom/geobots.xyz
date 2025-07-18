@@ -1,9 +1,12 @@
 // React imports
 import { useState, useContext, createContext } from 'react';
 
+// App imports
+import { getGeojson } from './helpers';
+
 // Context imports
 import { useMarkers } from 'context/markers';
-import { useMask } from 'context/mask';
+import { useGeo } from 'context/geo';
 import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
 
 // Third-party imports
@@ -14,8 +17,9 @@ const MarkerEventsContext: React.Context<any> = createContext(null);
 export const useMarkerEvents = () => useContext(MarkerEventsContext)
 
 export const MarkerEventsProvider = ({ children }: any) => {
+	const { mapRef } = useGeo();
 	const { updateMarkers } = useMarkers();
-	const { getGeojson } = useMask();
+	
 	const { fetchIsochrone } = useMapboxIsochroneApi();
 
 	const [ dragging, setDragging ] = useState(false);
@@ -42,7 +46,7 @@ export const MarkerEventsProvider = ({ children }: any) => {
 
 	const activateTrash = (e: any, id: any, activeTrash: any) => {
 		e.stopPropagation();
-		!dragging && updateMarkers(id, 'activeTrash', activeTrash ? false : true);
+		if (!dragging) updateMarkers(id, 'activeTrash', !activeTrash);
 	};
 
 	const getBoundary = async (marker: any, setBoundary: any) => {
@@ -51,11 +55,11 @@ export const MarkerEventsProvider = ({ children }: any) => {
 		if (boundaryType === 'iso') {
 			const data = await fetchIsochrone(marker);
 			const currentBoundary = data.features[0];
-			updateMarkers(id, 'data', getGeojson(currentBoundary, geometryType, layer));
+			updateMarkers(id, 'data', getGeojson(mapRef.current, currentBoundary, geometryType, layer));
 			setBoundary(currentBoundary);
 		} else if (center) {
 			const circle = turf.circle([center.lng, center.lat], radius);
-			const geojson = getGeojson(circle, geometryType, layer);
+			const geojson = getGeojson(mapRef.current, circle, geometryType, layer);
 			updateMarkers(id, 'data', geojson);
 			setBoundary(circle);
 		}
