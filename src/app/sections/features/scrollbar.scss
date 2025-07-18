@@ -1,18 +1,17 @@
 @import 'global';
 
 .features-wrapper::-webkit-scrollbar {
-  width: 20px;
+  width: 13px;
+
 }
 .features-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 1);
-  border-radius: 15px;
-  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.4);
 }
 .features-wrapper::-webkit-scrollbar-thumb {
-  background: $light-bg;
-  border-radius: 15px;
-  box-shadow: inset 0 0 0 5px $text-light;
+  background: $card-bg;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(189, 195, 199, 1);
 }
 .features-wrapper::-webkit-scrollbar-thumb:hover {
-  background: $scrollbar-color;
+  background: $light-bg;
 }

@@ -9,7 +9,7 @@ export const Agents = ({ imageUrls }: any) => {
 	const baseUrl = process.env.PUBLIC_URL + '/static/agents/';
 
 	return (
-		<div className="card-wrapper">
+		<div className="cards-wrapper">
 			<div className="cards">
 			  {providers.map((provider: any) => {
 			  	const { name } = provider;

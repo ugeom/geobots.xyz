@@ -9,10 +9,12 @@ export const Features = () => {
 	const { markers } = useMarkers();
 
 	return (
-		<div className="features-wrapper">
-			{Object.entries(markers).map(([key, marker]: any) => (
-				<Card key={key} marker={marker}/>
-			))}
+		<div className="outer-wrapper">
+			<div className="features-wrapper">
+				{Object.entries(markers).map(([key, marker]: any) => (
+					<Card key={key} marker={marker}/>
+				))}
+			</div>
 		</div>
 	)
 }

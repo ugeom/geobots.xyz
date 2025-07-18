@@ -15,7 +15,7 @@ export const SVGWrapper = ({ children }: any) => {
 	}, []);
 
 	return (
-		<div ref={parentRef} style={{ display: "flex", flexGrow: 1 }}>
+		<div ref={parentRef} style={{ display: "flex", flexGrow: 1, overflow: "hidden" }}>
 			{width &&
 				<svg viewBox={`0 0 ${width} ${height}`}>
 					<g transform={`translate(${margin.left}, ${margin.top})`}>

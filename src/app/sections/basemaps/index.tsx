@@ -10,23 +10,25 @@ export const Basemaps = () => {
 	const baseUrl = process.env.PUBLIC_URL + '/static/basemaps/';
 
 	return (
-		<div className="cards">
-			{basemaps.map((item, index) => {
-			  	const [[name, { img, url }]] = Object.entries(item);
-			  	const imageUrl = baseUrl + `${img}.png`;
-			  	
-			  	return (
-			  		<div key={index} className="basemap-card">
-				    	<img 
-				    		className="thumbnail"
-				    		src={imageUrl} 
-				    		alt={`custom-${img}`}
-				    		onClick={() => setMapStyle(url)}
-				    	/>
-				    	<span>{name}</span>
-				    </div>
-				  );
-			  })}
+		<div className="cards-wrapper">
+			<div className="cards">
+				{basemaps.map((item, index) => {
+				  	const [[name, { img, url }]] = Object.entries(item);
+				  	const imageUrl = baseUrl + `${img}.png`;
+				  	
+				  	return (
+				  		<div key={index} className="basemap-card">
+					    	<img 
+					    		className="thumbnail"
+					    		src={imageUrl} 
+					    		alt={`custom-${img}`}
+					    		onClick={() => setMapStyle(url)}
+					    	/>
+					    	<span>{name}</span>
+					    </div>
+					  );
+				  })}
+			</div>
 		</div>
 	)
 }

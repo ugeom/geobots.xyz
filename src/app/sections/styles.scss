@@ -26,17 +26,21 @@
     padding: 20px;
   }
 }
+.outer-wrapper {
+  padding-right: 7px;
+}
 .features-wrapper {
   text-transform: capitalize;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 15px;
   display: grid;
   grid-gap: 15px;
   overflow-y: auto;
   overflow-x: hidden;
   max-height: calc(100vh - 160px);
+  box-sizing: content-box;
 }
-.card-wrapper {
+.cards-wrapper {
   display: grid;
   overflow-y: auto;
   overflow-x: hidden;
