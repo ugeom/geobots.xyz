@@ -16,7 +16,7 @@ export const Basemaps = () => {
 			  	const imageUrl = baseUrl + `${img}.png`;
 			  	
 			  	return (
-			  		<div key={index}>
+			  		<div key={index} className="basemap-card">
 				    	<img 
 				    		className="thumbnail"
 				    		src={imageUrl} 

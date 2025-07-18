@@ -28,6 +28,8 @@ export const MarkersProvider = ({children}: any) => {
 		setAddPin((prev: boolean) => !prev);
 		setCurrentImage(src);
 		setCurrentProvider(provider);
+		const isMobile = window.matchMedia("(max-width: 768px)");
+		isMobile.matches && setActivePage(false);
 	}
 
     const addMarker = async (event: any) => {

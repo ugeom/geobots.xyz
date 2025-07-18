@@ -26,19 +26,6 @@
     padding: 20px;
   }
 }
-.cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  text-transform: capitalize;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: min-content;
-  span {
-    font-size: 0.9em;
-    font-weight: bold;
-  }
-}
 .features-wrapper {
   text-transform: capitalize;
   padding-left: 20px;
@@ -49,13 +36,28 @@
   overflow-x: hidden;
   max-height: calc(100vh - 160px);
 }
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  text-transform: capitalize;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: min-content;
+  span {
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+}
 .card {
   background: $card-bg;
   border: $border;
   box-shadow: $box-shadow;
   border-radius: 10px;
   padding: 15px;
-  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   height: 100px;
@@ -78,6 +80,9 @@
     height: calc(100vh - 150px);
     width: 100%;
     top: 0;
+  }
+  .cards {
+    max-height: calc(100vh - 330px);
   }
   .features-wrapper {
     max-height: calc(100vh - 300px);

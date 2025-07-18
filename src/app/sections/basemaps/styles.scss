@@ -1,5 +1,10 @@
 @import 'global';
 
+.basemap-card {
+  display: grid;
+  justify-items: center;
+  grid-gap: 10px;
+}
 .thumbnail {
   border-radius: 10px;
   border: $border;
