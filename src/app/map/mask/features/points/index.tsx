@@ -1,21 +1,16 @@
+// App imports
+import { getPointsLayer } from 'utils/layers/features/points';
+
 // Third-party imports
 import { Source, Layer } from 'react-map-gl/mapbox';
 
 export const Points = ({ marker }: any) => {
-  const { id, data, source } = marker;
+  const { id, data } = marker;
 
   const sourceId = `points-source-${id}`;
   const layerId = `points-layer-${id}`;
 
-  const layerStyle: any = {
-    layerId,
-    type: "circle",
-    source,
-    paint: {
-      'circle-radius': 3,
-      'circle-color': ['get', 'circle-color']
-    }
-  };
+  const pointsLayer: any = getPointsLayer(layerId, sourceId);
 
   return (
     <Source 
@@ -23,7 +18,7 @@ export const Points = ({ marker }: any) => {
       type="geojson" 
       data={data}
     >
-      <Layer {...layerStyle} />
+      <Layer {...pointsLayer} />
     </Source>
   );
 };

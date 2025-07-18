@@ -1,21 +1,16 @@
+// App imports
+import { getStrokeLayer } from 'utils/layers/features/stroke';
+
 // Third-party imports
 import { Source, Layer } from 'react-map-gl/mapbox';
 
 export const Lines = ({ marker }: any) => {
-	const { id, data, source } = marker;
+	const { id, data } = marker;
 
 	const sourceId = `lines-source-${id}`;
-	const layerId = `lines-layer-${id}`;
+	const strokeId = `lines-layer-${id}`;
 
-	const layerStyle: any = {
-	  layerId,
-	  type: "line",
-	  source,
-	  paint: {
-	    'line-width': 2,
-	    'line-color': ['get', 'line-color'],
-	  },
-	};
+	const strokeLayer: any = getStrokeLayer(strokeId, sourceId)
 
 	return (
 		<Source 
@@ -23,7 +18,7 @@ export const Lines = ({ marker }: any) => {
 		  type="geojson" 
 		  data={data}
 		>
-		  <Layer {...layerStyle}/>
+		  <Layer {...strokeLayer}/>
 		</Source>
 	)
 }
