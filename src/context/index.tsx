@@ -4,7 +4,7 @@ import { DataProvider } from './data';
 import { MarkersProvider } from './markers';
 import { SearchProvider } from './search';
 import { SizesProvider } from './sizes';
-import { EventsProvider } from './events';
+import { MaskProvider } from './mask';
 
 export const ContextProvider = ({children}: any) => {
   return (
@@ -12,13 +12,13 @@ export const ContextProvider = ({children}: any) => {
     <ApiProvider>
     <DataProvider>
     <MarkersProvider>
-    <EventsProvider>
+    <MaskProvider>
     <SearchProvider>
     <SizesProvider>
       {children}
     </SizesProvider>
     </SearchProvider>
-    </EventsProvider>
+    </MaskProvider>
     </MarkersProvider>
     </DataProvider>
     </ApiProvider>

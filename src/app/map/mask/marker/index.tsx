@@ -9,7 +9,7 @@ import { Cross } from './cross';
 // Context imports
 import { useMarkers } from 'context/markers';
 import { useGeo } from 'context/geo';
-import { useMarkerEvents } from 'context/events/marker';
+import { useMask } from 'context/mask';
 
 // Third-party imports
 import { Marker } from 'react-map-gl/mapbox';
@@ -17,7 +17,7 @@ import { Marker } from 'react-map-gl/mapbox';
 export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const { mapRef } = useGeo();
 	const { addPin, rejectMarker } = useMarkers();
-	const { onDragStart, onDrag, onDragEnd, getBoundary, activateTrash } = useMarkerEvents();
+	const { onDragStart, onDrag, onDragEnd, getBoundary, activateTrash } = useMask();
 
 	const [ dragPosition, setDragPosition ] = useState<any>(null);
 

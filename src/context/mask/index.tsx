@@ -12,11 +12,11 @@ import { useMapboxIsochroneApi } from 'context/api/mapbox/isochrone';
 // Third-party imports
 import * as turf from '@turf/turf';
 
-const MarkerEventsContext: React.Context<any> = createContext(null);
+const MaskContext: React.Context<any> = createContext(null);
 
-export const useMarkerEvents = () => useContext(MarkerEventsContext)
+export const useMask = () => useContext(MaskContext)
 
-export const MarkerEventsProvider = ({ children }: any) => {
+export const MaskProvider = ({ children }: any) => {
 	const { mapRef } = useGeo();
 	const { updateMarkers } = useMarkers();
 	
@@ -66,7 +66,7 @@ export const MarkerEventsProvider = ({ children }: any) => {
 	};
 
 	return (
-		<MarkerEventsContext.Provider value={{
+		<MaskContext.Provider value={{
 			onDragStart,
 			onDrag,
 			onDragEnd,
@@ -74,8 +74,8 @@ export const MarkerEventsProvider = ({ children }: any) => {
 			activateTrash
 		}}>
 			{children}
-		</MarkerEventsContext.Provider>
+		</MaskContext.Provider>
 	)
 }
 
-MarkerEventsContext.displayName = "MarkerEventsContext";
+MaskContext.displayName = "MaskContext";
