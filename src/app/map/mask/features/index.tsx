@@ -7,8 +7,8 @@ export const Features = ({ marker }: any) => {
 	const { geometryType } = marker;
 
 	const componentMap: any = {
-		LineString: Lines,
 		Points: Points,
+		LineString: Lines,
 		Polygon: Polygons
 	};
 

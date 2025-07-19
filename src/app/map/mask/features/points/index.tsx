@@ -1,5 +1,5 @@
 // App imports
-import { getPointsLayer } from 'utils/layers/features/points';
+import { getPointsLayer } from 'utils/layers/features';
 
 // Third-party imports
 import { Source, Layer } from 'react-map-gl/mapbox';
