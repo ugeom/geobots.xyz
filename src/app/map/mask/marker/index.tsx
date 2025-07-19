@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 // App imports
-import { Icon } from './icon';
+import { Avatar } from './avatar';
 import { Tooltip } from './tooltip';
 import { Cross } from './cross';
 
@@ -22,6 +22,7 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 	const [ dragPosition, setDragPosition ] = useState<any>(null);
 
 	const { id, name, center, image, radius, boundaryType, routingProfile, contoursMinutes, activeTrash } = marker;
+	
 	const map = mapRef?.current?.getMap();
 
 	const updateBoundary = () => {
@@ -48,11 +49,11 @@ export const CustomMarker = ({ marker, setBoundary }: any) => {
 				latitude={dragPosition?.lat ?? center.lat}
 				anchor="bottom"
 				draggable
-				onDrag={(e: any) => onDrag(e, id, boundaryType, setDragPosition)}
 				onDragStart={(e: any) => onDragStart(e, id)}
+				onDrag={(e: any) => onDrag(e, id, boundaryType, setDragPosition)}
 				onDragEnd={(e: any) => onDragEnd(e, id, boundaryType, setDragPosition)}
 			>
-				<Icon 
+				<Avatar 
 					name={name} 
 					image={image}
 					activePointer={addPin}

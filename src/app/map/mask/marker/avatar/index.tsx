@@ -1,7 +1,7 @@
 // App imports
 import './styles.scss';
 
-export const Icon = ({ onClick, image, name, activePointer }: any) => {
+export const Avatar = ({ onClick, image, name, activePointer }: any) => {
 	return (
 		<div 
 			className="custom-marker" 
@@ -20,4 +20,4 @@ export const Icon = ({ onClick, image, name, activePointer }: any) => {
 	)
 }
 
-Icon.displayName="Icon";
+Avatar.displayName="Avatar";

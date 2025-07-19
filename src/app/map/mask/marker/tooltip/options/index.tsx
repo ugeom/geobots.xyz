@@ -14,7 +14,7 @@ export const Options = ({ marker }: any) => {
   					markerProperty='radius'
   					minBound={0} 
   					maxBound={1}
-  					title={"Radius"}
+  					title={"Kilometers"}
   					initialState={radius}
   				/>
   			}

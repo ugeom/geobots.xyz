@@ -13,27 +13,21 @@ const routingProfileValues: any = {
 }
 
 export const Mobility = ({ markerId }: any) => {
-	const { markers, setMarkers } = useMarkers();
+	const { markers, updateMarkers } = useMarkers();
 
-	if (!(Object.keys(markers).length)) return <></>
+	if (!(Object.keys(markers).length)) return <></>;
 
 	const currentMarker = markerId && markers[markerId];
 
 	const onClick = (profile: any) => {
-		setMarkers((prev: any) => ({
-		    ...prev,
-		    [markerId]: {
-		        ...prev[markerId],
-		        routingProfile: profile,
-		    },
-		}));
-	}
+		updateMarkers(markerId, 'routingProfile', profile);
+	};
 
 	return (
 	  	<div>
 			<div className="routing-profile">
 				{Object.entries(routingProfileValues).map(([key, value]: any) => {
-					const isActive = currentMarker && currentMarker.routingProfile === key;
+					const isActive = currentMarker?.routingProfile === key;
 					return (
 						<div
 							key={key}
@@ -48,7 +42,9 @@ export const Mobility = ({ markerId }: any) => {
 					)
 				})}
 			</div>
-			<div className="options-title">Mobility Type</div>
+			<div className="options-title">
+				Mobility Type
+			</div>
 		</div>
 	)
 }

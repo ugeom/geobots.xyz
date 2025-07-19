@@ -19,7 +19,6 @@ export const useMask = () => useContext(MaskContext)
 export const MaskProvider = ({ children }: any) => {
 	const { mapRef } = useGeo();
 	const { updateMarkers } = useMarkers();
-	
 	const { fetchIsochrone } = useMapboxIsochroneApi();
 
 	const [ dragging, setDragging ] = useState(false);
@@ -49,20 +48,28 @@ export const MaskProvider = ({ children }: any) => {
 		if (!dragging) updateMarkers(id, 'activeTrash', !activeTrash);
 	};
 
-	const getBoundary = async (marker: any, setBoundary: any) => {
-		const { id, radius, boundaryType, center, layer, geometryType } = marker;
+	const getIsochrone = async (marker: any) => {
+		const data = await fetchIsochrone(marker);
+		const currentBoundary = data.features[0];
+		return currentBoundary;
 		
-		if (boundaryType === 'iso') {
-			const data = await fetchIsochrone(marker);
-			const currentBoundary = data.features[0];
-			updateMarkers(id, 'data', getGeojson(mapRef.current, currentBoundary, geometryType, layer));
-			setBoundary(currentBoundary);
-		} else if (center) {
-			const circle = turf.circle([center.lng, center.lat], radius);
-			const geojson = getGeojson(mapRef.current, circle, geometryType, layer);
-			updateMarkers(id, 'data', geojson);
-			setBoundary(circle);
-		}
+	};
+	const getCircle = (marker: any) => {
+		const { radius, center } = marker;
+		const currentBoundary = turf.circle([center.lng, center.lat], radius);
+		return currentBoundary
+	}
+
+	const getBoundary = (marker: any, setBoundary: any) => {
+		const { id, boundaryType, geometryType, layer } = marker;
+		const currentBoundary = 
+			boundaryType === 'iso' ? 
+			getIsochrone(marker) : 
+			getCircle(marker);
+
+		const geojson = getGeojson(mapRef.current, currentBoundary, geometryType, layer);
+		updateMarkers(id, 'data', geojson);
+		setBoundary(currentBoundary);
 	};
 
 	return (
